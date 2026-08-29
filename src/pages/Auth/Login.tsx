@@ -1,18 +1,46 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { login } from "../../api/authAPI";
 import logo from "../../assets/logo/logo.svg";
+import useAuthStore from "../../stores/useAuthStore";
 
 const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const setAuth = useAuthStore((state) => state.setAuth);
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    //전송중이거나 이메일/패스워드가 없다면 리턴
+    if (!email || !password || isLoading) return;
+
+    try {
+      setIsLoading(true);
+
+      const data = await login({ email, password });
+
+      //백엔드에서 준 data 내 토큰을 zustand 스토어에 저장
+      //리프레쉬 토큰을 아직 구현을 안했으므로 추후
+      //setAuth(data.accessToken, data.refreshToken, ''); 로 수정
+      setAuth(data.accessToken);
+
+      navigate("/");
+    } catch (error) {
+      alert("로그인에 실패하였습니다. 이메일과 비밀번호를 확인해주세요.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="mx-auto mt-[200px] p-6 bg-white flex flex-col items-center">
       <img src={logo} alt="로고" className="mb-5" />
 
-      <form className="flex flex-col gap-2 w-full">
+      <form className="flex flex-col gap-2 w-full" onSubmit={handleLogin}>
         <div className="flex flex-col gap-1 ">
           <input
             id="email"

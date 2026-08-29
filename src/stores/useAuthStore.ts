@@ -1,16 +1,11 @@
-//src/stores/useAuthStore.ts
-
-//전역 변수를 모두 저장하는 쥬스텐드 기본!!
-
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 interface AuthState {
   accessToken: string | null;
-  refreshToken: string | null;
 
   // 로그인 성공 시 호출할 함수
-  setAuth: (accessToken: string, refreshToken: string) => void;
+  setAuth: (accessToken: string) => void;
 
   // 로그아웃 시 호출할 함수
   clearAuth: () => void;
@@ -21,13 +16,12 @@ const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
       accessToken: null,
-      refreshToken: null,
+
       userInfo: null,
 
-      setAuth: (accessToken, refreshToken) =>
-        set({ accessToken, refreshToken }),
+      setAuth: (accessToken) => set({ accessToken }),
 
-      clearAuth: () => set({ accessToken: null, refreshToken: null }),
+      clearAuth: () => set({ accessToken: null }),
     }),
     { name: "auth-storage" },
   ),

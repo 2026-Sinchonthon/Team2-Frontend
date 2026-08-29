@@ -1,7 +1,11 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import CheckUniv from "./CheckUniv";
 
+import { signup } from "../../api/authAPI";
+
 const Signup = () => {
+  const navigate = useNavigate();
   const [step, setStep] = useState(1);
 
   const [name, setName] = useState("");
@@ -9,7 +13,7 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
 
-  const [, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [emailError, setEmailError] = useState("");
   const [pwError, setPwError] = useState("");
@@ -64,17 +68,28 @@ const Signup = () => {
     !emailError &&
     !pwError;
 
-  const handleFinalSubmit = (univ: string) => {
-    setIsLoading(true);
+  //연동
+  const handleFinalSubmit = async (univ: string) => {
+    if (!name || !email || !password || !passwordConfirm || isLoading) return;
 
-    console.log("최종 가입 데이터 전송:", {
-      name,
-      email,
-      password,
-      univ,
-    });
+    try {
+      setIsLoading(true);
+      console.log("전송할 데이터:", {
+        name,
+        email,
+        password,
+        passwordConfirm,
+        school: univ,
+      });
+      await signup({ name, email, password, passwordConfirm, school: univ });
 
-    setIsLoading(false);
+      alert("회원가입이 완료되었습니다! 로그인 후 이용해주세요.");
+      navigate("/login");
+    } catch (error) {
+      alert("회원가입에 실패하였습니다. 다시 시도해주세요.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   if (step === 2) {
