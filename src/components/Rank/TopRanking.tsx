@@ -59,7 +59,9 @@ const TopRanking = ({ top3 }: TopRankingProps) => {
                   {rank}
                 </div>
 
-                <div className="w-[135px] bg-[#D9D9D9] rounded-[20px] object-cover transition-all duration-500 ease-out h-[145px]" />
+                <div
+                  className={`w-[135px] bg-[#D9D9D9] rounded-[20px] object-cover transition-all duration-500 ease-out h-[145px] ${isCenter ? "mb-2" : ""}`}
+                />
 
                 <div
                   className={`absolute top-full mt-4 w-[200%] text-center transition-all duration-500 ease-out ${

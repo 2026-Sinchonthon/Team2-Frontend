@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import logo from "../../assets/logo/logo.svg";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -8,20 +9,18 @@ const Login = () => {
   const [isLoading] = useState(false);
 
   return (
-    <div className="max-w-[400px] mx-auto mt-60 p-6  bg-white">
-      <h2 className="text-center mb-6 text-2xl font-bold text-gray-800">
-        로그인
-      </h2>
+    <div className="mx-auto mt-[200px] p-6 bg-white flex flex-col items-center">
+      <img src={logo} alt="로고" className="mb-5" />
 
-      <form className="flex flex-col gap-2">
-        <div className="flex flex-col gap-1">
+      <form className="flex flex-col gap-2 w-full">
+        <div className="flex flex-col gap-1 ">
           <input
             id="email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="이메일"
-            className="p-3 rounded border border-gray-300 focus:outline-none  focus:border-main-1 rounded-2xl"
+            className="p-3 rounded border border-gray-5 bg-gray-5 focus:outline-none  focus:border-main-red rounded-2xl"
           />
         </div>
 
@@ -32,7 +31,7 @@ const Login = () => {
             value={password}
             placeholder="비밀번호"
             onChange={(e) => setPassword(e.target.value)}
-            className="p-3 rounded border border-gray-300 focus:outline-none focus:border-main-1 rounded-2xl"
+            className="p-3 rounded border border-gray-5 bg-gray-5 focus:outline-none focus:border-main-red rounded-2xl"
           />
         </div>
         <button
