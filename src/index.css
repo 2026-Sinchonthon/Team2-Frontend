@@ -1,1 +1,27 @@
+@import url("https://cdn.jsdelivr.net/gh/sunn-us/SUIT/fonts/static/woff2/SUIT.css");
+
 @import "tailwindcss";
+
+@theme {
+  /* Grayscale */
+  --color-gray-100: #1f1c1a;
+  --color-gray-90: #353331;
+  --color-gray-80: #4c4a48;
+  --color-gray-70: #62605f;
+  --color-gray-60: #797776;
+  --color-gray-50: #8f8e8d;
+  --color-gray-40: #a5a4a3;
+  --color-gray-30: #bcbbba;
+  --color-gray-20: #d2d2d1;
+  --color-gray-10: #e9e8e8;
+  --color-gray-5: #f4f4f4;
+
+  /* System Colors */
+  --color-main-1: #892a17;
+  --color-main-2: #741502;
+  --color-main-3: #400c01;
+}
+
+body {
+  font-family: "SUIT", sans-serif;
+}
