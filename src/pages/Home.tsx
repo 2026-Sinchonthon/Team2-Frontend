@@ -1,6 +1,9 @@
 import { useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import LikeButton from "../components/LikeButton";
+import RestaurantDetailContent, {
+  MOMIJI_ID,
+} from "../components/RestaurantDetailContent";
 import RestaurantMap from "../components/RestaurantMap";
 import { mockRestaurants } from "../mocks/restaurants";
 import useLikedStore from "../stores/useLikedStore";
@@ -8,29 +11,6 @@ import type { Restaurant } from "../types/restaurant";
 import iconBack from "../assets/icons/back.svg";
 import iconPlus from "../assets/icons/plus.svg";
 import iconSearch from "../assets/icons/search.svg";
-import momijiDish from "../assets/images/momiji-dish.jpg";
-
-const MOMIJI_ID = 1;
-
-const MOMIJI_GALLERY = [
-  {
-    src: momijiDish,
-    style: { height: "293.88%", width: "269.45%", left: "-21.33%", top: "0%" },
-  },
-  {
-    src: momijiDish,
-    style: {
-      height: "333.52%",
-      width: "306.71%",
-      left: "-206.48%",
-      top: "-121.01%",
-    },
-  },
-  {
-    src: momijiDish,
-    style: { height: "288%", width: "263.83%", left: "-151.66%", top: "0%" },
-  },
-];
 
 const ALL_UNIVERSITIES = "전체";
 
@@ -195,49 +175,15 @@ function Home() {
                 <img src={iconBack} alt="" className="size-[24px]" />
               </button>
 
-              <div className="relative flex justify-center">
-                <span className="inline-block rounded-full bg-[#f74651] px-2.5 py-1 text-xs font-semibold text-white">
-                  {selectedRestaurant.tag}
-                </span>
-                <div className="absolute right-0 top-0">
-                  <LikeButton
-                    liked={likedIds.has(selectedRestaurant.id)}
-                    onToggle={() => toggleLike(selectedRestaurant.id)}
-                  />
-                </div>
-              </div>
-              <p className="mt-1 text-center text-[18px] font-bold text-[#1f1c1a]">
-                {selectedRestaurant.name}
-              </p>
-              <p className="mt-1 text-center text-sm text-[#8f8e8d]">
-                {selectedRestaurant.description}
-              </p>
-              <p className="mt-1 text-center text-xs text-[#bcbbba]">
-                📍 {selectedRestaurant.address}
-              </p>
-
-              <div className="no-scrollbar mt-6 flex gap-2 overflow-x-auto pb-2">
-                {selectedRestaurant.id === MOMIJI_ID
-                  ? MOMIJI_GALLERY.map((photo, i) => (
-                      <div
-                        key={i}
-                        className="relative h-[104px] w-[142px] shrink-0 overflow-hidden rounded-[10px] bg-gray-200"
-                      >
-                        <img
-                          src={photo.src}
-                          alt=""
-                          className="absolute max-w-none"
-                          style={photo.style}
-                        />
-                      </div>
-                    ))
-                  : [0, 1, 2].map((i) => (
-                      <div
-                        key={i}
-                        className="h-[104px] w-[142px] shrink-0 rounded-[10px] bg-gray-200"
-                      />
-                    ))}
-              </div>
+              <RestaurantDetailContent
+                name={selectedRestaurant.name}
+                tag={selectedRestaurant.tag}
+                description={selectedRestaurant.description}
+                address={selectedRestaurant.address}
+                showGallery={selectedRestaurant.id === MOMIJI_ID}
+                liked={likedIds.has(selectedRestaurant.id)}
+                onToggleLike={() => toggleLike(selectedRestaurant.id)}
+              />
             </div>
           ) : (
             <>

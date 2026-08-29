@@ -1,9 +1,13 @@
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import HeartIcon from "../components/HeartIcon";
 import LikeButton from "../components/LikeButton";
+import { MOMIJI_ID } from "../components/RestaurantDetailContent";
+import RestaurantDetailModal from "../components/RestaurantDetailModal";
 import { mockRestaurants } from "../mocks/restaurants";
 import useLikedStore from "../stores/useLikedStore";
-import useMyPostsStore from "../stores/useMyPostsStore";
+import useMyPostsStore, { type MyPost } from "../stores/useMyPostsStore";
+import type { Restaurant } from "../types/restaurant";
 import iconBack from "../assets/icons/back.svg";
 
 const PREVIEW_COUNT = 2;
@@ -13,6 +17,9 @@ function MyActivity() {
   const likedIds = useLikedStore((state) => state.likedIds);
   const toggleLike = useLikedStore((state) => state.toggleLike);
   const posts = useMyPostsStore((state) => state.posts);
+  const [selectedRestaurant, setSelectedRestaurant] =
+    useState<Restaurant | null>(null);
+  const [selectedPost, setSelectedPost] = useState<MyPost | null>(null);
 
   const likedRestaurants = mockRestaurants.filter((restaurant) =>
     likedIds.has(restaurant.id),
@@ -47,7 +54,11 @@ function MyActivity() {
 
           <ul className="mt-4 flex flex-col gap-6">
             {likedRestaurants.slice(0, PREVIEW_COUNT).map((restaurant) => (
-              <li key={restaurant.id} className="flex gap-5">
+              <li
+                key={restaurant.id}
+                onClick={() => setSelectedRestaurant(restaurant)}
+                className="flex cursor-pointer gap-5"
+              >
                 <div className="relative h-[83px] w-[142px] shrink-0 rounded-[10px] bg-gray-200">
                   <div className="absolute left-3 top-3">
                     <LikeButton
@@ -88,7 +99,11 @@ function MyActivity() {
 
           <ul className="mt-4 flex flex-col gap-6">
             {posts.slice(0, PREVIEW_COUNT).map((post) => (
-              <li key={post.id} className="flex gap-5">
+              <li
+                key={post.id}
+                onClick={() => setSelectedPost(post)}
+                className="flex cursor-pointer gap-5"
+              >
                 <div className="relative h-[83px] w-[142px] shrink-0 rounded-[10px] bg-gray-200">
                   <div className="absolute left-3 top-3 text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.35)]">
                     <HeartIcon filled={false} />
@@ -110,6 +125,29 @@ function MyActivity() {
           </ul>
         </section>
       </div>
+
+      {selectedRestaurant && (
+        <RestaurantDetailModal
+          name={selectedRestaurant.name}
+          tag={selectedRestaurant.tag}
+          description={selectedRestaurant.description}
+          address={selectedRestaurant.address}
+          showGallery={selectedRestaurant.id === MOMIJI_ID}
+          liked={likedIds.has(selectedRestaurant.id)}
+          onToggleLike={() => toggleLike(selectedRestaurant.id)}
+          onClose={() => setSelectedRestaurant(null)}
+        />
+      )}
+
+      {selectedPost && (
+        <RestaurantDetailModal
+          name={selectedPost.restaurantName}
+          tag={selectedPost.tag}
+          description={selectedPost.review}
+          address={selectedPost.address}
+          onClose={() => setSelectedPost(null)}
+        />
+      )}
     </div>
   );
 }
