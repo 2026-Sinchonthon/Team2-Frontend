@@ -12,7 +12,10 @@ interface TopRankingProps {
 }
 
 const TopRanking = ({ top3 }: TopRankingProps) => {
-  // 🚨 추가된 방어 코드: 데이터가 없거나 3개가 안 되면 에러 없이 빈 화면(또는 로딩) 처리
+  // 0: 2위(왼쪽), 1: 1위(중앙 - 기본값), 2: 3위(오른쪽)
+  const [activeIndex, setActiveIndex] = useState(1);
+
+  // 데이터가 없거나 3개가 안 되면 에러 없이 빈 화면(또는 로딩) 처리
   if (!top3 || top3.length < 3) {
     return (
       <div className="h-[200px] flex items-center justify-center text-gray-400">
@@ -20,9 +23,6 @@ const TopRanking = ({ top3 }: TopRankingProps) => {
       </div>
     );
   }
-
-  // 0: 2위(왼쪽), 1: 1위(중앙 - 기본값), 2: 3위(오른쪽)
-  const [activeIndex, setActiveIndex] = useState(1);
 
   // 데이터가 확실히 있을 때만 접근하므로 에러가 발생하지 않습니다.
   const reordered = [top3[1], top3[0], top3[2]];

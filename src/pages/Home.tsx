@@ -4,6 +4,7 @@ import BottomNav from "../components/BottomNav";
 import LikeButton from "../components/LikeButton";
 import RestaurantMap from "../components/RestaurantMap";
 import { mockRestaurants } from "../mocks/restaurants";
+import useLikedStore from "../stores/useLikedStore";
 import type { Restaurant } from "../types/restaurant";
 import iconBack from "../assets/icons/back.svg";
 import iconPlus from "../assets/icons/plus.svg";
@@ -32,7 +33,8 @@ const ADD_BUTTON_GAP = 19;
 function Home() {
   const [keyword, setKeyword] = useState("");
   const [selectedUniversity, setSelectedUniversity] = useState(UNIVERSITIES[0]);
-  const [likedIds, setLikedIds] = useState<Set<number>>(new Set());
+  const likedIds = useLikedStore((state) => state.likedIds);
+  const toggleLike = useLikedStore((state) => state.toggleLike);
   const [selectedRestaurant, setSelectedRestaurant] =
     useState<Restaurant | null>(null);
   const [sheetHeight, setSheetHeight] = useState(DEFAULT_SHEET_HEIGHT);
@@ -64,18 +66,6 @@ function Home() {
     if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
       el.scrollLeft += e.deltaY;
     }
-  };
-
-  const toggleLike = (id: number) => {
-    setLikedIds((prev) => {
-      const next = new Set(prev);
-      if (next.has(id)) {
-        next.delete(id);
-      } else {
-        next.add(id);
-      }
-      return next;
-    });
   };
 
   const mapRestaurants = useMemo(() => {
