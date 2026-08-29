@@ -170,7 +170,7 @@ function Home() {
                 type="button"
                 onClick={() => setSelectedRestaurant(null)}
                 aria-label="뒤로 가기"
-                className="absolute left-2 top-[29px]"
+                className="absolute left-2 top-[29px] cursor-pointer"
               >
                 <img src={iconBack} alt="" className="size-[24px]" />
               </button>

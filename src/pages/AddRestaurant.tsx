@@ -62,7 +62,7 @@ function AddRestaurant() {
         type="button"
         onClick={handleBack}
         aria-label="뒤로 가기"
-        className="absolute left-[17px] top-[70px] z-10"
+        className="absolute left-[17px] top-[70px] z-10 cursor-pointer"
       >
         <img src={iconBack} alt="" className="size-[24px]" />
       </button>
