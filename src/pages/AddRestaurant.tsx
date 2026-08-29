@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { searchPlacesByKeyword, type KakaoPlace } from "../api/kakaoLocal";
-import BottomNav from "../components/BottomNav";
 import useMyPostsStore from "../stores/useMyPostsStore";
 import { RESTAURANT_TAGS } from "../types/restaurant";
 import iconBack from "../assets/icons/back.svg";
@@ -145,7 +144,7 @@ function AddRestaurant() {
           </button>
         </div>
       ) : (
-        <ul className="absolute bottom-[64px] left-0 right-0 top-[198px] flex flex-col gap-4 overflow-y-auto px-6 pb-6">
+        <ul className="no-scrollbar absolute bottom-0 left-0 right-0 top-[198px] flex flex-col gap-4 overflow-y-auto px-6 pb-6">
           {results.map((place) => (
             <li
               key={place.id}
@@ -170,8 +169,6 @@ function AddRestaurant() {
           )}
         </ul>
       )}
-
-      <BottomNav />
     </div>
   );
 }

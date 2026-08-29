@@ -1,6 +1,5 @@
 import { useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import BottomNav from "../components/BottomNav";
 import LikeButton from "../components/LikeButton";
 import RestaurantMap from "../components/RestaurantMap";
 import { mockRestaurants } from "../mocks/restaurants";
@@ -23,7 +22,6 @@ const UNIVERSITIES = [
 
 const MAP_CENTER = { lat: 37.5595, lng: 126.9385 };
 
-const BOTTOM_NAV_HEIGHT = 64;
 const DEFAULT_SHEET_HEIGHT = 387;
 const MIN_SHEET_HEIGHT = 160;
 const MAX_SHEET_HEIGHT = 640;
@@ -109,7 +107,7 @@ function Home() {
 
       <div
         ref={chipScrollRef}
-        className="absolute left-0 right-0 top-[148px] z-10 flex gap-2 overflow-x-auto px-6 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="no-scrollbar absolute left-0 right-0 top-[148px] z-10 flex gap-2 overflow-x-auto px-6 pb-1"
         onWheel={handleChipWheel}
       >
         {UNIVERSITIES.map((university) => (
@@ -135,7 +133,7 @@ function Home() {
         to="/add"
         className="absolute right-6 z-10 flex size-[50px] items-center justify-center rounded-full bg-white shadow-md"
         style={{
-          bottom: BOTTOM_NAV_HEIGHT + sheetHeight + ADD_BUTTON_GAP,
+          bottom: sheetHeight + ADD_BUTTON_GAP,
         }}
         aria-label="맛집 추가"
       >
@@ -143,7 +141,7 @@ function Home() {
       </Link>
 
       <div
-        className="absolute bottom-[64px] left-0 right-0 z-10 flex flex-col overflow-hidden rounded-t-[20px] bg-white shadow-[0_-4px_16px_rgba(0,0,0,0.08)]"
+        className="absolute bottom-0 left-0 right-0 z-10 flex flex-col overflow-hidden rounded-t-[20px] bg-white shadow-[0_-4px_16px_rgba(0,0,0,0.08)]"
         style={{ height: sheetHeight, maxHeight: "80vh" }}
       >
         <div
@@ -156,7 +154,7 @@ function Home() {
           <div className="h-[5px] w-[79px] rounded-full bg-[#d2d2d1]" />
         </div>
 
-        <div className="flex-1 overflow-y-auto pb-4">
+        <div className="no-scrollbar flex-1 overflow-y-auto pb-4">
           {selectedRestaurant ? (
             <div className="relative px-4 pt-[28px]">
               <button
@@ -189,7 +187,7 @@ function Home() {
                 📍 {selectedRestaurant.address}
               </p>
 
-              <div className="mt-6 flex gap-2 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              <div className="no-scrollbar mt-6 flex gap-2 overflow-x-auto pb-2">
                 {[0, 1, 2].map((i) => (
                   <div
                     key={i}

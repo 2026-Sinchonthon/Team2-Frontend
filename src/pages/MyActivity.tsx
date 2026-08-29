@@ -1,5 +1,4 @@
 import { Link, useNavigate } from "react-router-dom";
-import BottomNav from "../components/BottomNav";
 import HeartIcon from "../components/HeartIcon";
 import LikeButton from "../components/LikeButton";
 import { mockRestaurants } from "../mocks/restaurants";
@@ -111,8 +110,6 @@ function MyActivity() {
           </ul>
         </section>
       </div>
-
-      <BottomNav />
     </div>
   );
 }

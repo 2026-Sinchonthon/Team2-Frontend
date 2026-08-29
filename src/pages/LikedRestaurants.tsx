@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import BottomNav from "../components/BottomNav";
 import LikeButton from "../components/LikeButton";
 import { mockRestaurants } from "../mocks/restaurants";
 import useLikedStore from "../stores/useLikedStore";
@@ -28,7 +27,7 @@ function LikedRestaurants() {
         찜한 맛집
       </h1>
 
-      <ul className="absolute bottom-[64px] left-0 right-0 top-[122px] flex flex-col gap-6 overflow-y-auto px-6 pb-6">
+      <ul className="no-scrollbar absolute bottom-0 left-0 right-0 top-[122px] flex flex-col gap-6 overflow-y-auto px-6 pb-6">
         {likedRestaurants.map((restaurant) => (
           <li key={restaurant.id} className="flex gap-5">
             <div className="relative h-[83px] w-[142px] shrink-0 rounded-[10px] bg-gray-200">
@@ -55,8 +54,6 @@ function LikedRestaurants() {
           </li>
         )}
       </ul>
-
-      <BottomNav />
     </div>
   );
 }

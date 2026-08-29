@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import BottomNav from "../components/BottomNav";
 import HeartIcon from "../components/HeartIcon";
 import useMyPostsStore from "../stores/useMyPostsStore";
 import iconBack from "../assets/icons/back.svg";
@@ -22,7 +21,7 @@ function MyPosts() {
         내가 추가한 맛집
       </h1>
 
-      <ul className="absolute bottom-[64px] left-0 right-0 top-[122px] flex flex-col gap-6 overflow-y-auto px-6 pb-6">
+      <ul className="no-scrollbar absolute bottom-0 left-0 right-0 top-[122px] flex flex-col gap-6 overflow-y-auto px-6 pb-6">
         {posts.map((post) => (
           <li key={post.id} className="flex gap-5">
             <div className="relative h-[83px] w-[142px] shrink-0 rounded-[10px] bg-gray-200">
@@ -44,8 +43,6 @@ function MyPosts() {
           </li>
         )}
       </ul>
-
-      <BottomNav />
     </div>
   );
 }
