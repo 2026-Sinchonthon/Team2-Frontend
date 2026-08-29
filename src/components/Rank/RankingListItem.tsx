@@ -5,6 +5,7 @@ interface RankingListItemProps {
   name: string;
   address: string;
   imageUrl: string;
+  onClick?: () => void;
 }
 
 const RankingListItem = ({
@@ -12,9 +13,13 @@ const RankingListItem = ({
   name,
   address,
   imageUrl,
+  onClick,
 }: RankingListItemProps) => {
   return (
-    <div className="flex gap-4 px-5 mb-4">
+    <div
+      onClick={onClick}
+      className={`flex gap-4 px-5 mb-4 ${onClick ? "cursor-pointer" : ""}`}
+    >
       {/* 썸네일 영역 */}
       <div className="relative w-[142px] h-[83px] bg-[#D9D9D9] rounded-[16px] shrink-0 overflow-hidden">
         {imageUrl && (

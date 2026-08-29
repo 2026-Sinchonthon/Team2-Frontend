@@ -2,6 +2,8 @@ import { useState } from "react";
 import RankingFilter from "../../components/Rank/RankingFilter";
 import TopRanking from "../../components/Rank/TopRanking";
 import RankingListItem from "../../components/Rank/RankingListItem";
+import RestaurantDetailModal from "../../components/RestaurantDetailModal";
+import { MOMIJI_ID } from "../../components/RestaurantDetailContent";
 import momijiDish from "../../assets/images/momiji-dish.jpg";
 
 const CATEGORIES = ["전체", "홍익대", "연세대", "서강대", "이화여대", "명지대"];
@@ -105,8 +107,11 @@ const ALL_MOCK_DATA = [
   },
 ];
 
+type RankItem = (typeof ALL_MOCK_DATA)[number];
+
 const RankingPage = () => {
   const [selectedSchool, setSelectedSchool] = useState("전체");
+  const [selectedItem, setSelectedItem] = useState<RankItem | null>(null);
 
   const filteredData = ALL_MOCK_DATA.filter((item) => {
     if (selectedSchool === "전체") return true;
@@ -119,39 +124,53 @@ const RankingPage = () => {
   const displayList = filteredData.slice(3);
 
   return (
-    <div className="min-h-screen bg-white pb-20">
-      <header className="pt-12 pb-4 text-center">
-        <h1 className="text-[18px] font-bold text-gray-900">랭킹</h1>
-      </header>
+    <div className="relative h-full w-full bg-white">
+      <div className="no-scrollbar h-full overflow-y-auto pb-8">
+        <header className="pt-12 pb-4 text-center">
+          <h1 className="text-[18px] font-bold text-gray-900">랭킹</h1>
+        </header>
 
-      <RankingFilter
-        categories={CATEGORIES}
-        selectedSchool={selectedSchool}
-        onSelect={setSelectedSchool}
-      />
+        <RankingFilter
+          categories={CATEGORIES}
+          selectedSchool={selectedSchool}
+          onSelect={setSelectedSchool}
+        />
 
-      <div className="mt-9">
-        {/* 선택한 학교의 데이터가 3개 미만일 때 UI가 깨지지 않도록 방어 코드 추가 */}
-        {displayTop3.length >= 3 ? (
-          <TopRanking top3={displayTop3} />
-        ) : (
-          <div className="h-[180px] flex items-center justify-center text-sm text-gray-400">
-            {selectedSchool}의 상위 랭킹 데이터가 부족합니다.
-          </div>
-        )}
+        <div className="mt-9">
+          {/* 선택한 학교의 데이터가 3개 미만일 때 UI가 깨지지 않도록 방어 코드 추가 */}
+          {displayTop3.length >= 3 ? (
+            <TopRanking top3={displayTop3} onSelect={setSelectedItem} />
+          ) : (
+            <div className="h-[180px] flex items-center justify-center text-sm text-gray-400">
+              {selectedSchool}의 상위 랭킹 데이터가 부족합니다.
+            </div>
+          )}
+        </div>
+
+        <div className="mt-8">
+          {displayList.map((item, index) => (
+            <RankingListItem
+              key={item.id}
+              rank={index + 4} // Top3 다음이므로 4등부터 시작
+              name={item.name}
+              address={item.address}
+              imageUrl={item.imageUrl}
+              onClick={() => setSelectedItem(item)}
+            />
+          ))}
+        </div>
       </div>
 
-      <div className="mt-8">
-        {displayList.map((item, index) => (
-          <RankingListItem
-            key={item.id}
-            rank={index + 4} // Top3 다음이므로 4등부터 시작
-            name={item.name}
-            address={item.address}
-            imageUrl={item.imageUrl}
-          />
-        ))}
-      </div>
+      {selectedItem && (
+        <RestaurantDetailModal
+          name={selectedItem.name}
+          tag={selectedItem.school}
+          description={selectedItem.subtitle}
+          address={selectedItem.address}
+          showGallery={selectedItem.id === MOMIJI_ID}
+          onClose={() => setSelectedItem(null)}
+        />
+      )}
     </div>
   );
 };

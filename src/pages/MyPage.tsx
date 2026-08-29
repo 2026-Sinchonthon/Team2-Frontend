@@ -18,15 +18,16 @@ function MyPage() {
       <button
         type="button"
         onClick={notifyNotImplemented}
-        className="absolute left-[23px] top-[133px] flex h-[97px] w-[346px] items-center gap-4 rounded-[10px] border border-[#d2d2d1] px-5"
+        className="absolute left-[23px] top-[133px] flex h-[97px] w-[346px] cursor-pointer items-center gap-4 rounded-[10px] border border-[#d2d2d1] px-5"
       >
         <div className="flex size-[66px] shrink-0 items-center justify-center rounded-full border border-[#f74651] bg-white">
           <img src={iconProfileDefault} alt="" className="size-6" />
         </div>
-        <div className="text-left">
+        <div className="flex-1 text-left">
           <p className="text-[18px] font-bold text-[#1f1c1a]">아기사자</p>
           <p className="mt-1 text-xs text-[#bcbbba]">이화여자대학교 인증</p>
         </div>
+        <img src={iconBack} alt="" className="size-6 -scale-x-100" />
       </button>
 
       <div className="absolute left-[24px] top-[265px] w-[346px]">
@@ -44,7 +45,7 @@ function MyPage() {
         <button
           type="button"
           onClick={notifyNotImplemented}
-          className="mt-4 flex h-[66px] w-full items-center gap-3 rounded-[10px] border border-[#d2d2d1] px-4"
+          className="mt-4 flex h-[66px] w-full cursor-pointer items-center gap-3 rounded-[10px] border border-[#d2d2d1] px-4"
         >
           <img src={iconSettings} alt="" className="size-9 shrink-0 p-1.5" />
           <span className="flex-1 text-left text-[16px] font-bold text-[#1f1c1a]">
