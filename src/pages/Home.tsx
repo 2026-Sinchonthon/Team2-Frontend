@@ -8,6 +8,29 @@ import type { Restaurant } from "../types/restaurant";
 import iconBack from "../assets/icons/back.svg";
 import iconPlus from "../assets/icons/plus.svg";
 import iconSearch from "../assets/icons/search.svg";
+import momijiDish from "../assets/images/momiji-dish.jpg";
+
+const MOMIJI_ID = 1;
+
+const MOMIJI_GALLERY = [
+  {
+    src: momijiDish,
+    style: { height: "293.88%", width: "269.45%", left: "-21.33%", top: "0%" },
+  },
+  {
+    src: momijiDish,
+    style: {
+      height: "333.52%",
+      width: "306.71%",
+      left: "-206.48%",
+      top: "-121.01%",
+    },
+  },
+  {
+    src: momijiDish,
+    style: { height: "288%", width: "263.83%", left: "-151.66%", top: "0%" },
+  },
+];
 
 const ALL_UNIVERSITIES = "전체";
 
@@ -96,7 +119,13 @@ function Home() {
           value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
           placeholder="검색"
-          className="h-full w-full rounded-full border-2 border-[#bcbbba] bg-white pl-5 pr-12 text-base outline-none placeholder:text-gray-400"
+          className="h-full w-full rounded-full border-2 border-transparent bg-white pl-5 pr-12 text-base outline-none placeholder:text-gray-400"
+          style={{
+            backgroundImage:
+              "linear-gradient(white, white), linear-gradient(to right, #f74651, transparent)",
+            backgroundOrigin: "border-box",
+            backgroundClip: "padding-box, border-box",
+          }}
         />
         <img
           src={iconSearch}
@@ -118,10 +147,10 @@ function Home() {
               setSelectedUniversity(university);
               setSelectedRestaurant(null);
             }}
-            className={`shrink-0 select-none whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold shadow-md ${
+            className={`shrink-0 select-none whitespace-nowrap rounded-full border bg-white px-4 py-2 text-sm shadow-md ${
               selectedUniversity === university
-                ? "bg-[#f74651] text-white"
-                : "bg-white text-black"
+                ? "border-[#f74651] font-normal text-[#f74651]"
+                : "border-transparent font-semibold text-black"
             }`}
           >
             {university}
@@ -188,12 +217,26 @@ function Home() {
               </p>
 
               <div className="no-scrollbar mt-6 flex gap-2 overflow-x-auto pb-2">
-                {[0, 1, 2].map((i) => (
-                  <div
-                    key={i}
-                    className="h-[104px] w-[142px] shrink-0 rounded-[10px] bg-gray-200"
-                  />
-                ))}
+                {selectedRestaurant.id === MOMIJI_ID
+                  ? MOMIJI_GALLERY.map((photo, i) => (
+                      <div
+                        key={i}
+                        className="relative h-[104px] w-[142px] shrink-0 overflow-hidden rounded-[10px] bg-gray-200"
+                      >
+                        <img
+                          src={photo.src}
+                          alt=""
+                          className="absolute max-w-none"
+                          style={photo.style}
+                        />
+                      </div>
+                    ))
+                  : [0, 1, 2].map((i) => (
+                      <div
+                        key={i}
+                        className="h-[104px] w-[142px] shrink-0 rounded-[10px] bg-gray-200"
+                      />
+                    ))}
               </div>
             </div>
           ) : (
@@ -205,7 +248,14 @@ function Home() {
                     onClick={() => setSelectedRestaurant(restaurant)}
                     className="flex cursor-pointer gap-5"
                   >
-                    <div className="relative h-[104px] w-[142px] shrink-0 rounded-[10px] bg-gray-200">
+                    <div className="relative h-[104px] w-[142px] shrink-0 overflow-hidden rounded-[10px] bg-gray-200">
+                      {restaurant.thumbnail && (
+                        <img
+                          src={restaurant.thumbnail}
+                          alt=""
+                          className="absolute inset-0 h-full w-full object-cover"
+                        />
+                      )}
                       <div className="absolute left-3 top-3">
                         <LikeButton
                           liked={likedIds.has(restaurant.id)}

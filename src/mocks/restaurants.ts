@@ -1,13 +1,15 @@
 import type { Restaurant } from "../types/restaurant";
+import momijiThumb from "../assets/images/momiji-thumb.jpg";
 
 export const mockRestaurants: Restaurant[] = [
   {
     id: 1,
-    name: "연대각",
+    name: "모미지식당",
     tag: "밥약",
-    description: "연대생이 인정한 육회덮밥 맛집",
+    description: "이대생이 인정한 육회덮밥 맛집",
     address: "서울 서대문구 신촌로 12",
-    university: "연세대학교",
+    thumbnail: momijiThumb,
+    university: "이화여자대학교",
     latitude: 37.5595,
     longitude: 126.9425,
   },

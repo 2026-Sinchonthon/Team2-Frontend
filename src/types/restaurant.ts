@@ -12,6 +12,7 @@ export interface Restaurant {
   tag: string;
   description: string;
   address: string;
+  thumbnail?: string;
   university: string;
   latitude: number;
   longitude: number;

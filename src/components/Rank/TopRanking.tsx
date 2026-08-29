@@ -50,18 +50,26 @@ const TopRanking = ({ top3 }: TopRankingProps) => {
             >
               <div className="relative w-full flex flex-col items-center">
                 <div
-                  className={`w-5 h-5 rounded-full flex items-center justify-center text-sm font-bold mb-2 z-10 shadow-sm transition-colors duration-300 ${
+                  className={`w-5 h-5 rounded-full flex items-center justify-center text-sm font-bold mb-2 z-10 shadow-sm transition-colors duration-300 border ${
                     isCenter
-                      ? "bg-gray-800 text-white"
-                      : "bg-[#D9D9D9] text-gray-700"
+                      ? "bg-[#f74651] border-[#f74651] text-white"
+                      : "bg-white border-[#f74651] text-[#f74651]"
                   }`}
                 >
                   {rank}
                 </div>
 
                 <div
-                  className={`w-[135px] bg-[#D9D9D9] rounded-[20px] object-cover transition-all duration-500 ease-out h-[145px] ${isCenter ? "mb-2" : ""}`}
-                />
+                  className={`relative w-[135px] overflow-hidden rounded-[20px] border-2 bg-[#D9D9D9] transition-all duration-500 ease-out h-[145px] ${isCenter ? "mb-2 border-[#f4f4f4]" : "border-transparent"}`}
+                >
+                  {item?.imageUrl && (
+                    <img
+                      src={item.imageUrl}
+                      alt={item.name}
+                      className="absolute inset-0 h-full w-full object-cover"
+                    />
+                  )}
+                </div>
 
                 <div
                   className={`absolute top-full mt-4 w-[200%] text-center transition-all duration-500 ease-out ${
