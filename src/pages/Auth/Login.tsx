@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { login } from "../../api/authAPI";
+import { login, getUserInfo } from "../../api/authAPI"; // getUserInfo 추가 임포트
 import logo from "../../assets/logo/logo.svg";
 import useAuthStore from "../../stores/useAuthStore";
 
@@ -15,18 +15,25 @@ const Login = () => {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    //전송중이거나 이메일/패스워드가 없다면 리턴
     if (!email || !password || isLoading) return;
 
     try {
       setIsLoading(true);
 
-      const data = await login({ email, password });
+      // 1. 로그인 요청으로 토큰 획득
+      const tokenData = await login({ email, password });
 
-      //백엔드에서 준 data 내 토큰을 zustand 스토어에 저장
-      //리프레쉬 토큰을 아직 구현을 안했으므로 추후
-      //setAuth(data.accessToken, data.refreshToken, ''); 로 수정
-      setAuth(data.accessToken);
+      // 2. 토큰을 먼저 스토어에 저장해야 인증 헤더가 포함되어 내 정보 조회가 가능합니다.
+      setAuth(tokenData.accessToken, { name: "", school: "" });
+
+      // 3. 내 정보 조회 API 호출하여 유저 정보 가져오기
+      const userInfo = await getUserInfo();
+
+      // 4. 토큰과 함께 실제 유저 정보(name, school)를 스토어에 최종 저장
+      setAuth(tokenData.accessToken, {
+        name: userInfo.name,
+        school: userInfo.school,
+      });
 
       navigate("/");
     } catch (error) {
@@ -48,7 +55,7 @@ const Login = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="이메일"
-            className="p-3 rounded border border-gray-5 bg-gray-5 focus:outline-none  focus:border-main-red rounded-2xl"
+            className="p-3 rounded border border-gray-5 bg-gray-5 focus:outline-none focus:border-main-red rounded-2xl"
           />
         </div>
 
