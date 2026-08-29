@@ -2,6 +2,7 @@ import { useState } from "react";
 import RankingFilter from "../../components/Rank/RankingFilter";
 import TopRanking from "../../components/Rank/TopRanking";
 import RankingListItem from "../../components/Rank/RankingListItem";
+import momijiDish from "../../assets/images/momiji-dish.jpg";
 
 const CATEGORIES = ["전체", "홍익대", "연세대", "서강대", "이화여대", "명지대"];
 
@@ -52,7 +53,7 @@ const ALL_MOCK_DATA = [
     subtitle: "이대생이 인정한 육회덮밥 맛집",
     address: "서울 서대문구 이화여대7길 41",
     school: "이화여대",
-    imageUrl: "",
+    imageUrl: momijiDish,
   },
   {
     id: 2,

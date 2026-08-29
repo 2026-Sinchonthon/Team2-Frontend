@@ -1,6 +1,21 @@
 import { useState } from "react";
 import { Map, MapMarker, useKakaoLoader } from "react-kakao-maps-sdk";
 import type { Restaurant } from "../types/restaurant";
+import pinEwha from "../assets/pins/ewha.svg";
+import pinHongik from "../assets/pins/hongik.svg";
+import pinMyongji from "../assets/pins/myongji.svg";
+import pinSogang from "../assets/pins/sogang.svg";
+import pinYonsei from "../assets/pins/yonsei.svg";
+
+const PIN_SIZE = { width: 40, height: 48 };
+
+const UNIVERSITY_PIN: Record<string, string> = {
+  연세대학교: pinYonsei,
+  이화여자대학교: pinEwha,
+  서강대학교: pinSogang,
+  명지대학교: pinMyongji,
+  홍익대학교: pinHongik,
+};
 
 interface RestaurantMapProps {
   restaurants: Restaurant[];
@@ -34,6 +49,17 @@ function RestaurantMap({ restaurants, center, level = 5 }: RestaurantMapProps) {
         <MapMarker
           key={restaurant.id}
           position={{ lat: restaurant.latitude, lng: restaurant.longitude }}
+          image={
+            UNIVERSITY_PIN[restaurant.university]
+              ? {
+                  src: UNIVERSITY_PIN[restaurant.university],
+                  size: PIN_SIZE,
+                  options: {
+                    offset: { x: PIN_SIZE.width / 2, y: PIN_SIZE.height },
+                  },
+                }
+              : undefined
+          }
           onClick={() =>
             setSelectedId((prev) =>
               prev === restaurant.id ? null : restaurant.id,

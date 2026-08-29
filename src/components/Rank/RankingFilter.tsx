@@ -15,10 +15,10 @@ const RankingFilter = ({
         <button
           key={category}
           onClick={() => onSelect(category)}
-          className={`px-4 py-1.5 rounded-full text-[14px] whitespace-nowrap transition-colors ${
+          className={`px-4 py-1.5 rounded-full text-[14px] whitespace-nowrap transition-colors border bg-white ${
             selectedSchool === category
-              ? "bg-[#333333] text-white"
-              : "bg-white text-gray-800 border border-gray-200"
+              ? "border-[#f74651] text-[#f74651]"
+              : "border-gray-200 text-gray-800"
           }`}
         >
           {category}
