@@ -1,5 +1,3 @@
-import HeartIcon from "../HeartIcon";
-
 interface RankingListItemProps {
   rank: number;
   name: string;
