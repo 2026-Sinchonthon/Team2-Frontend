@@ -59,17 +59,32 @@ const TopRanking = ({ top3, onSelect }: TopRankingProps) => {
             >
               <div className="relative w-full flex flex-col items-center">
                 <div
-                  className={`w-5 h-5 rounded-full flex items-center justify-center text-sm font-bold mb-2 z-10 shadow-sm transition-colors duration-300 border ${
+                  className={`w-5 h-5 rounded-full flex items-center justify-center text-sm font-bold mb-2 z-10  transition-colors duration-300 ${
                     isCenter
-                      ? "bg-[#f74651] border-[#f74651] text-white"
-                      : "bg-white border-[#f74651] text-[#f74651]"
+                      ? "bg-main-red text-white"
+                      : "bg-white border border-main-red text-main-red"
                   }`}
                 >
                   {rank}
                 </div>
 
                 <div
-                  className={`relative w-[135px] overflow-hidden rounded-[20px] border-2 bg-[#D9D9D9] transition-all duration-500 ease-out h-[145px] ${isCenter ? "mb-2 border-[#f4f4f4]" : "border-transparent"}`}
+                  className={`relative w-[135px] h-[145px] overflow-hidden rounded-[20px] bg-[#D9D9D9] transition-all duration-500 ease-out ${
+                    isCenter ? "mb-2" : ""
+                  }`}
+                  style={{
+                    // 1. 센터가 아닐 때는 그냥 일반 보더 적용
+                    border: isCenter ? "none" : "2px solid #F4F4F4",
+
+                    // 2. 센터일 때만 마스크 기법으로 모서리가 둥근 그라데이션 테두리 생성
+                    ...(isCenter && {
+                      border: "3px solid transparent",
+                      backgroundImage:
+                        "linear-gradient(#D9D9D9, #D9D9D9), linear-gradient(to right, #FF4E4E, #ffffff)",
+                      backgroundOrigin: "border-box",
+                      backgroundClip: "padding-box, border-box",
+                    }),
+                  }}
                 >
                   {item?.imageUrl && (
                     <img

@@ -99,10 +99,10 @@ const Signup = () => {
   return (
     // CheckUniv와 동일하게 min-h-screen과 여백(pt-[125px]) 적용
     <div className="flex flex-col min-h-screen bg-white px-5 pt-[125px] pb-8 max-w-md mx-auto relative">
-      <h1 className="text-left mb-10 text-[24px] font-bold text-gray-900">
+      <h1 className="text-center mb-10 text-[24px] font-bold text-gray-900">
         반가워요!
         <br />
-        기본 정보를 입력해볼까요?
+        회원가입을를 진행해볼까요?
       </h1>
 
       <form className="flex flex-col flex-1">
