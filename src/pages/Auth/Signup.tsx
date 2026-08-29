@@ -12,8 +12,6 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
 
-  const [isLoading, setIsLoading] = useState(false);
-
   const [confirmError, setConfirmError] = useState("");
 
   const fileInputRef = useRef<HTMLInputElement>(null);

@@ -95,7 +95,7 @@ function Home() {
   );
 
   return (
-    <div className="relative h-screen w-full overflow-hidden bg-white">
+    <div className="relative h-full w-full overflow-hidden bg-white">
       <div className="absolute inset-0">
         <RestaurantMap restaurants={mapRestaurants} center={MAP_CENTER} />
       </div>
