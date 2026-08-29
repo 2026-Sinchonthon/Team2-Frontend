@@ -1,32 +1,99 @@
-# React + TypeScript + Vite
+# 신촌세끼
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+2026 신촌톤(Sinchonthon) 2팀 프론트엔드 레포지토리입니다.
+신촌 인근 대학생을 위한 **맛집 지도 서비스**로, 학교별 맛집을 지도에서 찾아보고 태그·한줄 리뷰와 함께 직접 등록할 수 있습니다.
 
-Currently, two official plugins are available:
+## 서비스 소개
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+신촌·홍대 일대에는 연세대, 이화여대, 서강대, 명지대, 홍익대 등 여러 대학이 모여 있지만, 정작 "어느 학교 학생이 어디를 추천하는지"는 알기 어렵습니다.
+**신촌세끼**는 이 지역 대학생들이 직접 발굴한 맛집을 학교별로 지도에 남기고 공유하는 서비스입니다.
 
-## React Compiler
+- 🗺️ **학교별 맛집 지도** — 대학마다 다른 색 핀으로 표시해, 어느 학교 학생들이 추천하는 맛집인지 지도에서 한눈에 확인할 수 있어요.
+- 🔍 **검색 & 학교 필터** — 맛집 이름/태그로 검색하고, 원하는 학교로 필터링해 볼 수 있어요.
+- 🏫 **직접 등록** — 카카오맵에서 장소를 검색해 태그(혼밥·공강·데이트·해장·밥약)와 한줄 리뷰를 남기고 등록할 수 있어요.
+- ❤️ **찜하기** — 마음에 드는 맛집을 찜해두고 마이페이지에서 모아볼 수 있어요.
+- 🏆 **학교별 랭킹** — 좋아요를 가장 많이 받은 맛집을 학교별/전체 랭킹으로 확인할 수 있어요.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 기술 스택
 
-## Expanding the Oxlint configuration
+- **React 19** + **TypeScript** + **Vite**
+- **Tailwind CSS v4**
+- **React Router v7**
+- **Zustand** (전역 상태 관리)
+- **Axios** (API 통신)
+- **react-kakao-maps-sdk** (카카오맵)
+- **oxlint** + **Prettier** (린트 / 포맷)
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+## 시작하기
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+### 1. 설치
+
+```bash
+npm install
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+### 2. 환경 변수 설정
+
+`.env.example`을 복사해 `.env` 파일을 만들고 값을 채워주세요.
+
+```bash
+cp .env.example .env
+```
+
+| 변수명                     | 설명                                                                  |
+| --------------------------- | ----------------------------------------------------------------------- |
+| `VITE_API_BASE_URL`         | 백엔드 API 서버 주소                                                 |
+| `VITE_KAKAO_MAP_KEY`        | 카카오맵 JavaScript 키 ([Kakao Developers](https://developers.kakao.com) 발급) |
+| `VITE_KAKAO_REST_API_KEY`   | 카카오 로컬(장소 검색) REST API 키                                    |
+
+> 카카오맵 관련 키는 발급 후 **앱 → 플랫폼 키 → JavaScript 키 → JavaScript SDK 도메인**에 개발 중인 도메인(예: `http://localhost:3000`)을 등록해야 하고, **앱 → 제품 설정 → 카카오맵**에서 사용 설정을 켜야 정상 동작합니다.
+
+### 3. 개발 서버 실행
+
+```bash
+npm run dev
+```
+
+기본적으로 [http://localhost:3000](http://localhost:3000) 에서 실행됩니다.
+
+## 스크립트
+
+| 명령어           | 설명                          |
+| ---------------- | ----------------------------- |
+| `npm run dev`     | 개발 서버 실행                |
+| `npm run build`   | 타입체크 + 프로덕션 빌드      |
+| `npm run preview` | 빌드 결과물 미리보기          |
+| `npm run lint`    | oxlint 실행                   |
+| `npm run format`  | Prettier로 전체 코드 포맷팅   |
+
+## 프로젝트 구조
+
+```
+src/
+├── api/            # 백엔드 및 카카오 API 통신 함수
+├── assets/         # 아이콘, 이미지, 지도 핀 등 정적 리소스
+├── components/     # 공용 컴포넌트 (지도, 좋아요 버튼, 레이아웃, 랭킹 등)
+├── mocks/          # 목데이터
+├── pages/          # 라우트 단위 페이지
+├── stores/         # Zustand 전역 스토어 (인증, 좋아요, 내가 추가한 맛집)
+├── types/          # 공용 타입 정의
+└── App.tsx         # 라우트 정의
+```
+
+## 주요 화면
+
+| 경로                | 설명                                    |
+| -------------------- | ----------------------------------------- |
+| `/`                  | 홈 (지도 + 학교별 맛집 리스트 + 검색)     |
+| `/add`               | 맛집 검색 후 태그·한줄 리뷰와 함께 등록   |
+| `/mypage`             | 마이페이지                              |
+| `/mypage/activity`    | 내 활동 (찜한 맛집 / 내가 추가한 맛집)  |
+| `/mypage/liked`       | 찜한 맛집 전체보기                       |
+| `/mypage/posts`       | 내가 추가한 맛집 전체보기                |
+| `/rank`               | 학교별 맛집 랭킹                         |
+| `/login`, `/signup`   | 로그인 / 회원가입                        |
+
+## 코드 스타일
+
+- 커밋 전 `npm run lint`와 `npm run format`으로 확인해주세요.
+- 큰따옴표(`"`), 세미콜론(`;`) 사용을 기본으로 합니다 (`.prettierrc.json` 참고).
