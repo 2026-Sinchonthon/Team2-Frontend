@@ -29,12 +29,9 @@ export interface AuthTokens {
 }
 
 // 내정보 조회
-export interface UserInfo {
-  userId: number;
+export interface UserInfoData {
   name: string;
-  email: string;
-  nickname: string;
-  university: string;
+  school: string;
 }
 
 //회원가입 API
@@ -62,12 +59,12 @@ export const login = async (data: LoginRequest): Promise<AuthTokens> => {
 
 //로그아웃 API
 export const logout = async (): Promise<void> => {
-  await api.post<ApiResponse<void>>("/api/v1/auth/logout");
+  await api.post<ApiResponse<void>>("/api/auth/logout");
 };
 
-//내 정보 조회 API
-export const getMyInfo = async (): Promise<UserInfo> => {
-  const response = await api.get<ApiResponse<UserInfo>>("/api/v1/users/me");
+export type UserInfoResponse = ApiResponse<UserInfoData>;
 
-  return response.data.data;
-};
+export async function getUserInfo(): Promise<UserInfoData> {
+  const { data } = await api.get<UserInfoResponse>("/api/mypage");
+  return data.data;
+}
