@@ -4,6 +4,8 @@ import BottomNav from "../components/BottomNav";
 import LikeButton from "../components/LikeButton";
 import RestaurantMap from "../components/RestaurantMap";
 import { mockRestaurants } from "../mocks/restaurants";
+import type { Restaurant } from "../types/restaurant";
+import iconBack from "../assets/icons/back.svg";
 import iconPlus from "../assets/icons/plus.svg";
 import iconSearch from "../assets/icons/search.svg";
 
@@ -28,6 +30,8 @@ function Home() {
   const [keyword, setKeyword] = useState("");
   const [selectedUniversity, setSelectedUniversity] = useState(UNIVERSITIES[0]);
   const [likedIds, setLikedIds] = useState<Set<number>>(new Set());
+  const [selectedRestaurant, setSelectedRestaurant] =
+    useState<Restaurant | null>(null);
   const [sheetHeight, setSheetHeight] = useState(DEFAULT_SHEET_HEIGHT);
   const dragRef = useRef<{ startY: number; startHeight: number } | null>(null);
 
@@ -120,7 +124,10 @@ function Home() {
           <button
             key={university}
             type="button"
-            onClick={() => setSelectedUniversity(university)}
+            onClick={() => {
+              setSelectedUniversity(university);
+              setSelectedRestaurant(null);
+            }}
             className={`shrink-0 select-none whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold shadow-md ${
               selectedUniversity === university
                 ? "bg-[#f74651] text-white"
@@ -158,43 +165,91 @@ function Home() {
         </div>
 
         <div className="flex-1 overflow-y-auto pb-4">
-          <h2 className="mb-3 px-4 text-lg font-bold">
-            {selectedUniversity} 맛집
-          </h2>
+          {selectedRestaurant ? (
+            <div className="relative px-4 pt-[28px]">
+              <button
+                type="button"
+                onClick={() => setSelectedRestaurant(null)}
+                aria-label="뒤로 가기"
+                className="absolute left-2 top-[29px]"
+              >
+                <img src={iconBack} alt="" className="size-[24px]" />
+              </button>
 
-          <ul className="flex flex-col gap-7 px-4">
-            {listRestaurants.map((restaurant) => (
-              <li key={restaurant.id} className="flex gap-5">
-                <div className="relative h-[104px] w-[142px] shrink-0 rounded-[10px] bg-gray-200">
-                  <div className="absolute left-3 top-3">
-                    <LikeButton
-                      liked={likedIds.has(restaurant.id)}
-                      onToggle={() => toggleLike(restaurant.id)}
-                    />
-                  </div>
+              <div className="relative flex justify-center">
+                <span className="inline-block rounded-full bg-[#f74651] px-2.5 py-1 text-xs font-semibold text-white">
+                  {selectedRestaurant.category}
+                </span>
+                <div className="absolute right-0 top-0">
+                  <LikeButton
+                    liked={likedIds.has(selectedRestaurant.id)}
+                    onToggle={() => toggleLike(selectedRestaurant.id)}
+                  />
                 </div>
-                <div className="min-w-0">
-                  <span className="inline-block rounded-full bg-[#f74651] px-2.5 py-1 text-xs font-semibold text-white">
-                    {restaurant.category}
-                  </span>
-                  <p className="mt-1.5 text-[18px] font-bold text-[#1f1c1a]">
-                    {restaurant.name}
-                  </p>
-                  <p className="mt-1 text-sm text-[#8f8e8d]">
-                    {restaurant.description}
-                  </p>
-                  <p className="mt-2 text-xs text-[#bcbbba]">
-                    📍 {restaurant.address}
-                  </p>
-                </div>
-              </li>
-            ))}
-            {listRestaurants.length === 0 && (
-              <li className="py-6 text-center text-sm text-gray-400">
-                검색 결과가 없습니다.
-              </li>
-            )}
-          </ul>
+              </div>
+              <p className="mt-1 text-center text-[18px] font-bold text-[#1f1c1a]">
+                {selectedRestaurant.name}
+              </p>
+              <p className="mt-1 text-center text-sm text-[#8f8e8d]">
+                {selectedRestaurant.description}
+              </p>
+              <p className="mt-1 text-center text-xs text-[#bcbbba]">
+                📍 {selectedRestaurant.address}
+              </p>
+              <p className="mt-5 text-center text-sm text-[#353331]">
+                {selectedRestaurant.detail}
+              </p>
+
+              <div className="mt-6 flex gap-2 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                {[0, 1, 2].map((i) => (
+                  <div
+                    key={i}
+                    className="h-[104px] w-[142px] shrink-0 rounded-[10px] bg-gray-200"
+                  />
+                ))}
+              </div>
+            </div>
+          ) : (
+            <>
+              <ul className="flex flex-col gap-7 px-4 pt-2">
+                {listRestaurants.map((restaurant) => (
+                  <li
+                    key={restaurant.id}
+                    onClick={() => setSelectedRestaurant(restaurant)}
+                    className="flex cursor-pointer gap-5"
+                  >
+                    <div className="relative h-[104px] w-[142px] shrink-0 rounded-[10px] bg-gray-200">
+                      <div className="absolute left-3 top-3">
+                        <LikeButton
+                          liked={likedIds.has(restaurant.id)}
+                          onToggle={() => toggleLike(restaurant.id)}
+                        />
+                      </div>
+                    </div>
+                    <div className="min-w-0">
+                      <span className="inline-block rounded-full bg-[#f74651] px-2.5 py-1 text-xs font-semibold text-white">
+                        {restaurant.category}
+                      </span>
+                      <p className="mt-1.5 text-[18px] font-bold text-[#1f1c1a]">
+                        {restaurant.name}
+                      </p>
+                      <p className="mt-1 text-sm text-[#8f8e8d]">
+                        {restaurant.description}
+                      </p>
+                      <p className="mt-2 text-xs text-[#bcbbba]">
+                        📍 {restaurant.address}
+                      </p>
+                    </div>
+                  </li>
+                ))}
+                {listRestaurants.length === 0 && (
+                  <li className="py-6 text-center text-sm text-gray-400">
+                    검색 결과가 없습니다.
+                  </li>
+                )}
+              </ul>
+            </>
+          )}
         </div>
       </div>
 
