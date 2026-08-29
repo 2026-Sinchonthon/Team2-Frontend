@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import LikeButton from "../components/LikeButton";
 import { MOMIJI_ID } from "../components/RestaurantDetailContent";
 import RestaurantDetailModal from "../components/RestaurantDetailModal";
-import { mockRestaurants } from "../mocks/restaurants";
+import { useAllRestaurants } from "../hooks/useAllRestaurants";
 import useLikedStore from "../stores/useLikedStore";
 import type { Restaurant } from "../types/restaurant";
 import iconBack from "../assets/icons/back.svg";
@@ -15,7 +15,8 @@ function LikedRestaurants() {
   const [selectedRestaurant, setSelectedRestaurant] =
     useState<Restaurant | null>(null);
 
-  const likedRestaurants = mockRestaurants.filter((restaurant) =>
+  const allRestaurants = useAllRestaurants();
+  const likedRestaurants = allRestaurants.filter((restaurant) =>
     likedIds.has(restaurant.id),
   );
 

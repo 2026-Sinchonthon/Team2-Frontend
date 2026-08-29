@@ -4,7 +4,7 @@ import HeartIcon from "../components/HeartIcon";
 import LikeButton from "../components/LikeButton";
 import { MOMIJI_ID } from "../components/RestaurantDetailContent";
 import RestaurantDetailModal from "../components/RestaurantDetailModal";
-import { mockRestaurants } from "../mocks/restaurants";
+import { useAllRestaurants } from "../hooks/useAllRestaurants";
 import useLikedStore from "../stores/useLikedStore";
 import useMyPostsStore, { type MyPost } from "../stores/useMyPostsStore";
 import type { Restaurant } from "../types/restaurant";
@@ -21,7 +21,8 @@ function MyActivity() {
     useState<Restaurant | null>(null);
   const [selectedPost, setSelectedPost] = useState<MyPost | null>(null);
 
-  const likedRestaurants = mockRestaurants.filter((restaurant) =>
+  const allRestaurants = useAllRestaurants();
+  const likedRestaurants = allRestaurants.filter((restaurant) =>
     likedIds.has(restaurant.id),
   );
 

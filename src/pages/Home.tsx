@@ -5,7 +5,7 @@ import RestaurantDetailContent, {
   MOMIJI_ID,
 } from "../components/RestaurantDetailContent";
 import RestaurantMap from "../components/RestaurantMap";
-import { mockRestaurants } from "../mocks/restaurants";
+import { useAllRestaurants } from "../hooks/useAllRestaurants";
 import useLikedStore from "../stores/useLikedStore";
 import type { Restaurant } from "../types/restaurant";
 import iconBack from "../assets/icons/back.svg";
@@ -16,11 +16,11 @@ const ALL_UNIVERSITIES = "전체";
 
 const UNIVERSITIES = [
   ALL_UNIVERSITIES,
-  "명지대학교",
-  "서강대학교",
-  "이화여자대학교",
-  "연세대학교",
-  "홍익대학교",
+  "명지대",
+  "서강대",
+  "이화여대",
+  "연세대",
+  "홍익대",
 ];
 
 const MAP_CENTER = { lat: 37.5595, lng: 126.9385 };
@@ -34,6 +34,7 @@ const ADD_BUTTON_GAP = 19;
 function Home() {
   const [keyword, setKeyword] = useState("");
   const [selectedUniversity, setSelectedUniversity] = useState(UNIVERSITIES[0]);
+  const allRestaurants = useAllRestaurants();
   const likedIds = useLikedStore((state) => state.likedIds);
   const toggleLike = useLikedStore((state) => state.toggleLike);
   const [selectedRestaurant, setSelectedRestaurant] =
@@ -71,13 +72,13 @@ function Home() {
 
   const mapRestaurants = useMemo(() => {
     const trimmed = keyword.trim();
-    if (!trimmed) return mockRestaurants;
+    if (!trimmed) return allRestaurants;
 
-    return mockRestaurants.filter(
+    return allRestaurants.filter(
       (restaurant) =>
         restaurant.name.includes(trimmed) || restaurant.tag.includes(trimmed),
     );
-  }, [keyword]);
+  }, [allRestaurants, keyword]);
 
   const listRestaurants = useMemo(() => {
     if (selectedUniversity === ALL_UNIVERSITIES) return mapRestaurants;
