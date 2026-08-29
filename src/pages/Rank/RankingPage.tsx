@@ -2,7 +2,6 @@ import { useState } from "react";
 import RankingFilter from "../../components/Rank/RankingFilter";
 import TopRanking from "../../components/Rank/TopRanking";
 import RankingListItem from "../../components/Rank/RankingListItem";
-import BottomNav from "../../components/BottomNav";
 
 const CATEGORIES = ["전체", "홍익대", "연세대", "서강대", "이화여대", "명지대"];
 

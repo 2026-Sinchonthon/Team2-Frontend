@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import BottomNav from "../components/BottomNav";
 import iconBack from "../assets/icons/back.svg";
 
 function MyPage() {
@@ -49,8 +48,6 @@ function MyPage() {
           <img src={iconBack} alt="" className="size-6 -scale-x-100" />
         </button>
       </div>
-
-      <BottomNav />
     </div>
   );
 }

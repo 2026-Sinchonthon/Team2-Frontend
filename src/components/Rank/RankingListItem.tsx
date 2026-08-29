@@ -1,5 +1,3 @@
-import like from "../../assets/icons/like-white.svg";
-
 interface RankingListItemProps {
   rank: number;
   name: string;
@@ -18,7 +16,7 @@ const RankingListItem = ({
       {/* 썸네일 영역 */}
       <div className="relative w-[142px] h-[83px] bg-[#D9D9D9] rounded-[16px] shrink-0">
         <button className="absolute top-2 left-2 p-1">
-          <img src={like} alt="찜하기" className="w-5 h-5" />
+          <img src="/heart.svg" alt="찜하기" className="w-5 h-5" />
         </button>
       </div>
 
