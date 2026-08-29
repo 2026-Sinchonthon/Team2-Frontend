@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { searchPlacesByKeyword, type KakaoPlace } from "../api/kakaoLocal";
 import BottomNav from "../components/BottomNav";
+import useMyPostsStore from "../stores/useMyPostsStore";
 import { RESTAURANT_TAGS } from "../types/restaurant";
 import iconBack from "../assets/icons/back.svg";
 import iconSearch from "../assets/icons/search.svg";
@@ -10,6 +11,7 @@ const REVIEW_MAX_LENGTH = 30;
 
 function AddRestaurant() {
   const navigate = useNavigate();
+  const addPost = useMyPostsStore((state) => state.addPost);
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<KakaoPlace[]>([]);
   const [hasSearched, setHasSearched] = useState(false);
@@ -45,13 +47,11 @@ function AddRestaurant() {
     if (!selectedPlace || !selectedTag || !review.trim()) return;
 
     // TODO: 백엔드 등록 API 연동
-    console.log({
-      name: selectedPlace.placeName,
-      tag: selectedTag,
-      description: review,
+    addPost({
+      restaurantName: selectedPlace.placeName,
       address: selectedPlace.roadAddressName || selectedPlace.addressName,
-      latitude: selectedPlace.latitude,
-      longitude: selectedPlace.longitude,
+      tag: selectedTag,
+      review,
     });
 
     navigate("/");

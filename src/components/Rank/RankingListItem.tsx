@@ -1,3 +1,5 @@
+import HeartIcon from "../HeartIcon";
+
 interface RankingListItemProps {
   rank: number;
   name: string;
@@ -14,9 +16,19 @@ const RankingListItem = ({
   return (
     <div className="flex gap-4 px-5 mb-4">
       {/* 썸네일 영역 */}
-      <div className="relative w-[100px] h-[100px] bg-[#D9D9D9] rounded-[16px] shrink-0">
-        <button className="absolute top-2 left-2 p-1">
-          <img src="/heart.svg" alt="찜하기" className="w-5 h-5" />
+      <div className="relative w-[100px] h-[100px] bg-[#D9D9D9] rounded-[16px] shrink-0 overflow-hidden">
+        {imageUrl && (
+          <img
+            src={imageUrl}
+            alt={name}
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        )}
+        <button
+          className="absolute top-2 left-2 text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.35)]"
+          aria-label="찜하기"
+        >
+          <HeartIcon filled={false} />
         </button>
       </div>
 

@@ -9,7 +9,7 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [, setIsLoading] = useState(false);
 
   const [emailError, setEmailError] = useState("");
   const [pwError, setPwError] = useState("");
