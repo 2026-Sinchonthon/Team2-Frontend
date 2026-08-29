@@ -3,15 +3,18 @@ import { useState } from "react";
 interface TopRankItem {
   id: number;
   name: string;
-  subtitle?: string;
+  subtitle: string;
+  address: string;
+  school: string;
   imageUrl: string;
 }
 
 interface TopRankingProps {
   top3: TopRankItem[];
+  onSelect?: (item: TopRankItem) => void;
 }
 
-const TopRanking = ({ top3 }: TopRankingProps) => {
+const TopRanking = ({ top3, onSelect }: TopRankingProps) => {
   // 0: 2위(왼쪽), 1: 1위(중앙 - 기본값), 2: 3위(오른쪽)
   const [activeIndex, setActiveIndex] = useState(1);
 
@@ -45,7 +48,13 @@ const TopRanking = ({ top3 }: TopRankingProps) => {
           return (
             <div
               key={item?.id || index}
-              onClick={() => setActiveIndex(index)}
+              onClick={() => {
+                if (!isCenter) {
+                  setActiveIndex(index);
+                } else if (item) {
+                  onSelect?.(item);
+                }
+              }}
               className="flex flex-col items-center flex-1 shrink-0 cursor-pointer"
             >
               <div className="relative w-full flex flex-col items-center">
