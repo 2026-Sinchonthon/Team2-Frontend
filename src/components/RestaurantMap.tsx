@@ -10,11 +10,11 @@ import pinYonsei from "../assets/pins/yonsei.svg";
 const PIN_SIZE = { width: 40, height: 48 };
 
 const UNIVERSITY_PIN: Record<string, string> = {
-  연세대학교: pinYonsei,
-  이화여자대학교: pinEwha,
-  서강대학교: pinSogang,
-  명지대학교: pinMyongji,
-  홍익대학교: pinHongik,
+  연세대: pinYonsei,
+  이화여대: pinEwha,
+  서강대: pinSogang,
+  명지대: pinMyongji,
+  홍익대: pinHongik,
 };
 
 interface RestaurantMapProps {

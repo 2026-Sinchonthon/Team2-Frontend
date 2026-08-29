@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { searchPlacesByKeyword, type KakaoPlace } from "../api/kakaoLocal";
+import { createRestaurant } from "../api/restaurant";
 import useMyPostsStore from "../stores/useMyPostsStore";
 import { RESTAURANT_TAGS } from "../types/restaurant";
 import iconBack from "../assets/icons/back.svg";
@@ -17,6 +18,7 @@ function AddRestaurant() {
   const [selectedPlace, setSelectedPlace] = useState<KakaoPlace | null>(null);
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
   const [review, setReview] = useState("");
+  const [isRegistering, setIsRegistering] = useState(false);
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,18 +44,37 @@ function AddRestaurant() {
     navigate(-1);
   };
 
-  const handleRegister = () => {
-    if (!selectedPlace || !selectedTag || !review.trim()) return;
+  const handleRegister = async () => {
+    if (!selectedPlace || !selectedTag || !review.trim() || isRegistering)
+      return;
 
-    // TODO: 백엔드 등록 API 연동
-    addPost({
-      restaurantName: selectedPlace.placeName,
-      address: selectedPlace.roadAddressName || selectedPlace.addressName,
-      tag: selectedTag,
-      review,
-    });
+    const address = selectedPlace.roadAddressName || selectedPlace.addressName;
 
-    navigate("/");
+    setIsRegistering(true);
+    try {
+      // 맛집 등록 시 등록한 사용자의 완료(방문) 처리도 백엔드에서 함께 이루어집니다.
+      await createRestaurant({
+        kakaoPlaceId: selectedPlace.id,
+        name: selectedPlace.placeName,
+        address,
+        latitude: selectedPlace.latitude,
+        longitude: selectedPlace.longitude,
+      });
+
+      // TODO: 태그·한줄 리뷰 등록 API가 나오면 이 로컬 저장 대신 그 API를 호출합니다.
+      addPost({
+        restaurantName: selectedPlace.placeName,
+        address,
+        tag: selectedTag,
+        review,
+      });
+
+      navigate("/");
+    } catch (error) {
+      console.error("맛집 등록에 실패했습니다.", error);
+    } finally {
+      setIsRegistering(false);
+    }
   };
 
   return (
@@ -137,10 +158,10 @@ function AddRestaurant() {
           <button
             type="button"
             onClick={handleRegister}
-            disabled={!selectedTag || !review.trim()}
+            disabled={!selectedTag || !review.trim() || isRegistering}
             className="mt-10 h-[56px] w-full rounded-[20px] bg-[#353331] text-[15px] font-semibold text-white disabled:opacity-40"
           >
-            등록
+            {isRegistering ? "등록 중..." : "등록"}
           </button>
         </div>
       ) : (
