@@ -10,7 +10,7 @@ const RankingFilter = ({
   onSelect,
 }: RankingFilterProps) => {
   return (
-    <div className="flex gap-2 overflow-x-auto scrollbar-hide py-4 px-5">
+    <div className="flex gap-2 overflow-x-auto no-scrollbar py-4 px-5">
       {categories.map((category) => (
         <button
           key={category}
