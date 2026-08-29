@@ -7,12 +7,7 @@ interface RankingListItemProps {
   imageUrl: string;
 }
 
-const RankingListItem = ({
-  rank,
-  name,
-  address,
-  imageUrl,
-}: RankingListItemProps) => {
+const RankingListItem = ({ rank, name, address }: RankingListItemProps) => {
   return (
     <div className="flex gap-4 px-5 mb-4">
       {/* 썸네일 영역 */}

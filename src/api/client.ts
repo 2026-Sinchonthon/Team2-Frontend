@@ -24,66 +24,23 @@ apiClient.interceptors.request.use(
   },
 );
 
-// 응답 인터셉터
+// 응답 인터셉터 (리프레시 토큰 제거 버전)
 apiClient.interceptors.response.use(
   (response) => {
     return response;
   },
-
   async (error) => {
-    const originalRequest = error.config;
-
-    if (error.response?.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
-
-      try {
-        const refreshToken = useAuthStore.getState().refreshToken;
-
-        if (!refreshToken) {
-          throw new Error("리프레쉬 토큰이 없습니다.");
-        }
-
-        // 인터셉터가 붙지 않은 axios 사용
-        const refreshResponse = await axios.post(
-          `${baseURL}/api/v1/auth/refresh`,
-          { refreshToken },
-        );
-
-        // 새 액세스 토큰
-        const newAccessToken = refreshResponse.data.result.accessToken;
-
-        if (newAccessToken) {
-          useAuthStore.setState({
-            accessToken: newAccessToken,
-          });
-
-          // 새 리프레쉬 토큰이 있다면 교체
-          if (refreshResponse.data.result?.refreshToken) {
-            useAuthStore.setState({
-              refreshToken: refreshResponse.data.result.refreshToken,
-            });
-          }
-
-          // 실패했던 요청에 새 토큰 넣기
-          originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-
-          // 원래 요청 다시 보내기
-          return apiClient(originalRequest);
-        }
-      } catch (refreshError) {
-        console.error("토큰 재발급 실패, 로그아웃", refreshError);
-
-        useAuthStore.getState().clearAuth();
-        window.location.href = "/login";
-
-        return Promise.reject(refreshError);
-      }
-    }
-
     if (error.response) {
       const status = error.response.status;
 
       switch (status) {
+        case 401:
+          // 인증이 만료되었거나 유효하지 않은 경우 -> 바로 로그아웃 및 로그인 페이지로 이동
+          console.warn("인증이 만료되었습니다. 다시 로그인해주세요.");
+          useAuthStore.getState().clearAuth();
+          window.location.href = "/login";
+          break;
+
         case 400:
           console.warn("잘못된 요청입니다 : ", error.response.data);
           break;

@@ -26,12 +26,12 @@ function App() {
         <Route path="/mypage/activity" element={<MyActivity />} />
         <Route path="/mypage/liked" element={<LikedRestaurants />} />
         <Route path="/mypage/posts" element={<MyPosts />} />
+        <Route path="*" element={<NotFound />} />
       </Route>
+
       <Route element={<AuthLayout />}>
-    
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
-        <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
   );
