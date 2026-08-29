@@ -38,7 +38,7 @@ const Login = () => {
 
   return (
     <div className="mx-auto mt-[200px] p-6 bg-white flex flex-col items-center">
-      <img src={logo} alt="로고" className="mb-5" />
+      <img src={logo} alt="로고" className="mb-10" />
 
       <form className="flex flex-col gap-2 w-full" onSubmit={handleLogin}>
         <div className="flex flex-col gap-1 ">
@@ -74,7 +74,7 @@ const Login = () => {
           onClick={() => {
             navigate("/signup");
           }}
-          className="cursor-pointer text-gray-30"
+          className="cursor-pointer text-gray-30 text-[14px]"
         >
           회원가입
         </div>
