@@ -251,8 +251,6 @@ function Home() {
           )}
         </div>
       </div>
-
-      <BottomNav />
     </div>
   );
 }

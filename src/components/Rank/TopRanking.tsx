@@ -33,7 +33,7 @@ const TopRanking = ({ top3 }: TopRankingProps) => {
   return (
     <div className="px-5 mb-8 overflow-x-hidden pb-16">
       <div
-        className="flex items-end justify-center gap-3 transition-transform duration-500 ease-out w-full h-[180px]"
+        className="flex items-end justify-center gap-3 transition-transform duration-500 ease-out w-full h-[200px]"
         style={{
           transform: `translateX(calc(${offset} * (100% / 3 + 4px)))`,
         }}
@@ -59,11 +59,7 @@ const TopRanking = ({ top3 }: TopRankingProps) => {
                   {rank}
                 </div>
 
-                <div
-                  className={`w-full bg-[#D9D9D9] rounded-[20px] object-cover transition-all duration-500 ease-out ${
-                    isCenter ? "h-[160px]" : "h-[120px]"
-                  }`}
-                />
+                <div className="w-[135px] bg-[#D9D9D9] rounded-[20px] object-cover transition-all duration-500 ease-out h-[145px]" />
 
                 <div
                   className={`absolute top-full mt-4 w-[200%] text-center transition-all duration-500 ease-out ${
