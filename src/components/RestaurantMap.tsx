@@ -44,7 +44,7 @@ function RestaurantMap({ restaurants, center, level = 5 }: RestaurantMapProps) {
             <div style={{ padding: "6px 10px", minWidth: "140px" }}>
               <strong>{restaurant.name}</strong>
               <div style={{ fontSize: "12px", color: "#666" }}>
-                {restaurant.category}
+                {restaurant.tag}
               </div>
               <div style={{ fontSize: "12px" }}>{restaurant.address}</div>
             </div>

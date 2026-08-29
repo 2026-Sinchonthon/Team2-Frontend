@@ -9,7 +9,10 @@ import iconBack from "../assets/icons/back.svg";
 import iconPlus from "../assets/icons/plus.svg";
 import iconSearch from "../assets/icons/search.svg";
 
+const ALL_UNIVERSITIES = "전체";
+
 const UNIVERSITIES = [
+  ALL_UNIVERSITIES,
   "명지대학교",
   "서강대학교",
   "이화여자대학교",
@@ -81,18 +84,17 @@ function Home() {
 
     return mockRestaurants.filter(
       (restaurant) =>
-        restaurant.name.includes(trimmed) ||
-        restaurant.category.includes(trimmed),
+        restaurant.name.includes(trimmed) || restaurant.tag.includes(trimmed),
     );
   }, [keyword]);
 
-  const listRestaurants = useMemo(
-    () =>
-      mapRestaurants.filter(
-        (restaurant) => restaurant.university === selectedUniversity,
-      ),
-    [mapRestaurants, selectedUniversity],
-  );
+  const listRestaurants = useMemo(() => {
+    if (selectedUniversity === ALL_UNIVERSITIES) return mapRestaurants;
+
+    return mapRestaurants.filter(
+      (restaurant) => restaurant.university === selectedUniversity,
+    );
+  }, [mapRestaurants, selectedUniversity]);
 
   return (
     <div className="relative h-full w-full overflow-hidden bg-white">
@@ -178,7 +180,7 @@ function Home() {
 
               <div className="relative flex justify-center">
                 <span className="inline-block rounded-full bg-[#f74651] px-2.5 py-1 text-xs font-semibold text-white">
-                  {selectedRestaurant.category}
+                  {selectedRestaurant.tag}
                 </span>
                 <div className="absolute right-0 top-0">
                   <LikeButton
@@ -195,9 +197,6 @@ function Home() {
               </p>
               <p className="mt-1 text-center text-xs text-[#bcbbba]">
                 📍 {selectedRestaurant.address}
-              </p>
-              <p className="mt-5 text-center text-sm text-[#353331]">
-                {selectedRestaurant.detail}
               </p>
 
               <div className="mt-6 flex gap-2 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -228,7 +227,7 @@ function Home() {
                     </div>
                     <div className="min-w-0">
                       <span className="inline-block rounded-full bg-[#f74651] px-2.5 py-1 text-xs font-semibold text-white">
-                        {restaurant.category}
+                        {restaurant.tag}
                       </span>
                       <p className="mt-1.5 text-[18px] font-bold text-[#1f1c1a]">
                         {restaurant.name}
